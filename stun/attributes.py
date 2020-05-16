@@ -95,7 +95,7 @@ class XorMappedAddress(MappedAddress):
         return cls(attr.family, address, port, transaction_id)
 
 
-class ErrorCodeAttribute(BaseAttribute):
+class ErrorCode(BaseAttribute):
     __ATTRIBUTE__ = ATTRIBUTE_ERROR_CODE
 
     def __init__(self, error_code, reason=''):
