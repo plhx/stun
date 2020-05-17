@@ -65,7 +65,7 @@ class MappedAddress(BaseAttribute):
 class XorMappedAddress(MappedAddress):
     __ATTRIBUTE__ = ATTRIBUTE_XOR_MAPPED_ADDRESS
 
-    def __init__(self, family, address, port, transaction_id):
+    def __init__(self, family, address, port, transaction_id=None):
         super().__init__(family, address, port)
         self.transaction_id = transaction_id
 
@@ -83,7 +83,7 @@ class XorMappedAddress(MappedAddress):
 
     @classmethod
     def from_bytes(cls, data, transaction_id):
-        attr = MappedAddress.from_bytes(data)
+        attr = super().from_bytes(data)
         port = attr.port ^ ((MAGIC_COOKIE >> 16) & 0xffff)
         address = int.from_bytes(attr.address.packed, 'big')
         if attr.family == ADDRESS_FAMILY_IPV4:
