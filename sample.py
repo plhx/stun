@@ -12,8 +12,8 @@ if __name__ == '__main__':
     if args.server:
         stun.server.STUNServer((args.host, args.port)).serve_forever()
     else:
-        request = stun.client.STUNClient((args.host, args.port))
-        response = request.binding()
+        client = stun.client.STUNClient((args.host, args.port))
+        response = client.binding()
         address = response.get(
             'xor_mapped_address',
             response.get('mapped_address')

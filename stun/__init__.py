@@ -1,7 +1,3 @@
-"""
-Yet another STUN implementaion
-"""
-
 MESSAGE_BINDING    = 0x0001
 MESSAGE_REQUEST    = 0x0000
 MESSAGE_INDICATION = 0x0010
@@ -55,6 +51,10 @@ class STUNDatagram:
             return MappedAddress.from_bytes(data)
         elif atype == ATTRIBUTE_XOR_MAPPED_ADDRESS:
             return XorMappedAddress.from_bytes(data, transaction_id)
+        elif atype == ATTRIBUTE_ERROR_CODE:
+            return ErrorCode.from_bytes(data)
+        elif atype == ATTRIBUTE_RESPONSE_ORIGIN:
+            return ResponseOrigin.from_bytes(data)
 
     @classmethod
     def from_bytes(cls, data):

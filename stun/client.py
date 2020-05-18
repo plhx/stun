@@ -5,6 +5,15 @@ import socket
 from stun import *
 
 
+def get_local_address(dns='8.8.8.8'):
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        sock.connect((dns, 80))
+        return sock.getsockname()
+    finally:
+        sock.close()
+
+
 class STUNClient:
     def __init__(self, address, timeout=3, retry=7, mtu=1500):
         self.address = address

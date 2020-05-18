@@ -18,6 +18,7 @@ ATTRIBUTE_ALTERNATE_SERVER   = 0x8023
 ATTRIBUTE_FINGERPRINT        = 0x8028
 
 ATTRIBUTE_CHANGE_REQUEST     = 0x0003
+ATTRIBUTE_RESPONSE_ORIGIN    = 0x802b
 
 ADDRESS_FAMILY_IPV4 = 0x01
 ADDRESS_FAMILY_IPV6 = 0x02
@@ -138,3 +139,7 @@ class ChangeRequest(BaseAttribute):
     def from_bytes(cls, data):
         flag = struct.unpack('>xxxB', data)
         return cls(bool(flag & 0x04), bool(flag & 0x02))
+
+
+class ResponseOrigin(MappedAddress):
+    __ATTRIBUTE__ = ATTRIBUTE_RESPONSE_ORIGIN
