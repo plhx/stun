@@ -1,3 +1,7 @@
+import collections
+import secrets
+
+
 MESSAGE_BINDING    = 0x0001
 MESSAGE_REQUEST    = 0x0000
 MESSAGE_INDICATION = 0x0010
@@ -6,9 +10,15 @@ MESSAGE_ERROR      = 0x0110
 
 MAGIC_COOKIE       = 0x2112a442
 
+NAT_UDP_BLOCKED          = 0x01
+NAT_OPEN_INTERNET        = 0x02
+NAT_FIREWALL             = 0x03
+NAT_FULL_CONE            = 0x04
+NAT_RESTRICTED_CONE      = 0x05
+NAT_PORT_RESTRICTED_CONE = 0x06
+NAT_SYMMETRIC            = 0x07
 
-import collections
-import secrets
+
 from .attributes import *
 
 

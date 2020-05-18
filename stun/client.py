@@ -14,6 +14,40 @@ def get_local_address(dns='8.8.8.8'):
         sock.close()
 
 
+def nattype(address, timeout=0.5, retry=1, mtu=1500):
+    def test(client, change_ip, change_port):
+        try:
+            response = client.binding(
+                change_ip=change_ip,
+                change_port=change_port
+            )
+            return response.get(
+                'mapped_address',
+                response.get('xor_mapped_address')
+            )[0]
+        except TimedoutError:
+            pass
+
+    client = STUNClient(address, timeout, retry, mtu)
+    addr = get_local_address()
+    test1 = test(client, False, False)
+    if test1 is None:
+        return NAT_UDP_BLOCKED
+    test2 = test(client, True, True)
+    if addr == test1:
+        return NAT_FIREWALL if test2 is None else NAT_OPEN_INTERNET
+    if test2 is not None:
+        return NAT_FULL_CONE
+    test3 = test(client, False, False)
+    if test3 is None:
+        return NAT_UDP_BLOCKED
+    if addr != test3:
+        return NAT_SYMMETRIC
+    if test(client, False, True) is None:
+        return NAT_PORT_RESTRICTED_CONE
+    return NAT_RESTRICTED_CONE
+
+
 class STUNClient:
     def __init__(self, address, timeout=3, retry=7, mtu=1500):
         self.address = address
